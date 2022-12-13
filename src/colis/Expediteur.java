@@ -17,7 +17,7 @@ public class Expediteur {
 	}
 	
 	public static void main(String[] args) {
-		Adresse adresse2 = new Adresse("Toulouse", "118 route de Narbonne", 31000);
+		Adresse adresse2 = new Adresse("Toulouse", "118 route de Narbonne", "31000");
 		Expediteur env1 = new Expediteur("Université Paul Sabatier III", adresse2,"0615148459");
 		System.out.println(env1);
 	}

@@ -12,27 +12,19 @@ public class Destinataire {
 		this.prenom = prenom;
 		this.adresse = adresse;
 		this.numeroTelephone = numeroTelephone;
-	} 
-	
-//	public void ajouterDest() {
-//		
-//	}
-	
-	
+	}
+	public Adresse getAdresse() {
+		return adresse;
+	}
 	@Override
 	public String toString() {
-		return nom + " "+ prenom + "\n" + adresse + "\n"+ numeroTelephone ;
+		return nom + " "+ prenom + " | " + adresse + " | "+ numeroTelephone ;
 	}
 	
 	public static void main(String[] args) {
-		Adresse adresse1 = new Adresse("Caussade", "19 rue Chanoine Galabert", 82300);
+		Adresse adresse1 = new Adresse("Caussade", "19 rue Chanoine Galabert", "82300");
 		Destinataire dest1 = new Destinataire("Calmels", "Christophe",adresse1,"0620212032");
-		
 		System.out.println(dest1);
-		
 	}
 	
-	
-	
-
 }

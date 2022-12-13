@@ -9,7 +9,7 @@ public class CodeBarre {
 	
 	@Override
 	public String toString() {
-		return "Le code barre est : " + numCodeBarre + " \n";
+		return " " + numCodeBarre ;
 	}
 	
 	public static void main(String[] args) {

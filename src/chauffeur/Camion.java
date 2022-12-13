@@ -11,6 +11,12 @@ public class Camion {
 		this.numeroDuCamion = numeroDuCamion;
 		this.chauffeur = chauffeur;
 	}
+	public int getNumeroDuCamion() {
+		return numeroDuCamion;
+	}
+	public String getNumeroIm() {
+		return numeroIm;
+	}
 	@Override
 	public String toString() {
 		return "[ " + numeroIm + " ]" + "(" + numeroDuCamion + ")\n" + "Chauffeur : " + chauffeur.getNom() + " "+ chauffeur.getPrenom();  

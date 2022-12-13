@@ -19,11 +19,9 @@ public class Chauffeur {
 		return nom;
 	}
 
-
 	public String getPrenom() {
 		return prenom;
 	}
-
 
 	public int getAge() {
 		return age;
@@ -33,7 +31,6 @@ public class Chauffeur {
 	public String toString() {
 		return nom + " " + prenom + " " + age + " ans";
 	}
-
 
 	public static void main(String[] args) {
 		Chauffeur christopheC = new Chauffeur("Calmels", "Christophe", 56);
