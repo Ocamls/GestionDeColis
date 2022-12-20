@@ -11,46 +11,107 @@ import chauffeur.Tournee;
 
 public class Main {
 
-	public static void menu() {
-		// Menu d'affichage de base //
-		System.out.println("1- Ajouter un tournée");
-		System.out.println("2- Ajouter un colis");
-		System.out.println("3- Enlever un colis");
-		System.out.println("4- Modifier un colis ");
-		System.out.println("0- Quitter");
-		/* TODO Faire un double menu une première partie pour
-		 * les tournées et une deuxième partie pour les colis
-		 * et à l'interieur de chaque menu un autre menu qui permet de toucher à l'objet choisi */
-		// TODO Faire l'input de l'utilisateur pour le choix dans le menu
-		
+	public static void menuPp() {
+		System.out.println("1- ACCÈS TOURNÉE ");
+		System.out.println("2- ACCÈS COLIS ");
+		System.out.println("0- QUITTER LE MENU PRINCIPAL");
 
-		System.out.println("Saisir le menu que vous voulez !");
-		int userInput = Integer.parseInt(inputOutput("Que voulez vous faire ?\n"));
-
-		switch (userInput) {
-			case 0:{
-				System.out.println("Vous venez de quitter le menu :)\n");
-				break;
-			}
-			case 1: {
-				Tournee tournee = saisieInfosTournee();
-				System.out.println(tournee);
-				menu();
-				break;
-			}
-			case 2: {
-				Colis colis = saisieInfosColis();
-				menu();
-				System.out.println(colis);
-				break;
-			}
-			default:{
-				System.out.println("Il faut saisir une valeur disponible");
-				menu();
-				break;
-			}
+		int userInputMenuPp = Integer.parseInt(inputOutput("Que voulez vous faire ?\n"));
+		if (userInputMenuPp == 1) {
+			// TODO faire le menu pour l'accès à la tournée
+		} else if (userInputMenuPp == 2) {
+			// TODO faire le menu pour l'accès aux colis
+		} else if (userInputMenuPp == 0) {
+			// TODO faire ens sorte de quitter le menu principal ainsi que tous les autres
+			// menus
+		} else {
+			// TODO indiquer une erreur de saisie et permettre de revenir en arrière
 		}
+
 	}
+
+	public static void menuTournee() {
+		System.out.println("1- Ajouter une tournée\n");
+		System.out.println("2- Retirer une tournée\n");
+		System.out.println("3- Modifier une tournée\n");
+		System.out.println("0- Revenir au menu principal");
+
+		int userInputMenu1SousMenu1 = Integer
+				.parseInt(inputOutput("Vous êtes dans le menu des TOURNÉES. \nQue voulez vous faire ?\\n"));
+
+		switch (userInputMenu1SousMenu1) {
+		case 1: {
+			Tournee tournee = saisieInfosTournee();
+			System.out.println(tournee);
+			menuPp();
+			break;
+		}
+		case 2: {
+			// TODO Il faut ici mettre la fonction qui permet la suppression de la tournée
+		}
+		case 3: {
+			// TODO Il faut ici mettre la fonction qui permet la modification de la tournée
+		}
+		case 0: {
+			System.out.println("Vous venez de quitter le menu :(\n");
+			break;
+		}
+		default: {
+			System.out.println("Saisir un chiffre disponible");
+			menuTournee();
+		}
+		}
+
+	}
+
+	public static void menuColis() {
+		System.out.println("1- Ajouter un colis \n");
+		System.out.println("2- Retirer un colis \n");
+		System.out.println("3- Modifier un colis\n");
+		System.out.println("4- Afficher la liste de tous les colis\n");
+		System.out.println("5- Afficher la liste de tous les colis en fonction des tournées");
+		System.out.println("0- revenir au menu principal");
+
+		int userInputMenu1SousMenu2 = Integer
+				.parseInt(inputOutput("Vous êtes dans le sous menu COLIS. \nQue voulez vous faire ?\n"));
+
+		switch (userInputMenu1SousMenu2) {
+		case 0: {
+			System.out.println("Vous venez de quitter le menu :)\n");
+			break;
+		}
+		case 1: {
+			Colis colis = saisieInfosColis();
+			
+			System.out.println(colis);
+			menuColis();
+			break;
+		}
+		case 2: {
+			// TODO Il faut ici mettre la fonction qui permet la supression d'un colis
+		}
+		case 3: {
+			// TODO Il faut ici mettre la fonction qui permet la modification d'un colis
+		}
+		case 4: {
+			// TODO Il faut ici mettre la fonction qui permet l'affichage de la liste de
+			// tous les colis enregistrés
+		}
+		case 5: {
+			// TODO Il faut ici mettre la fonction qui permet l'affichage de la liste de
+			// tous les colis enregistrés en fonction des tournées
+		}
+
+		default: {
+			System.out.println("Il faut saisir une valeur disponible");
+			menuPp();
+			break;
+		}
+		}
+
+	}
+
+	
 
 	public static String inputOutput(String message) {
 		System.out.println(message);
@@ -76,7 +137,6 @@ public class Main {
 
 		// Saisie du code postal (CodePostal)
 		String cPDest = inputOutput("Saisir le code postal du  destinataire");
-
 
 		/* ######################################################################### */
 		Adresse adrCompleteDest = new Adresse(villeDest, adrDest, cPDest);
@@ -138,41 +198,42 @@ public class Main {
 	}
 
 	private static Tournee saisieInfosTournee() {
-		//Saisie du chauffeur
-		//Saisie du nom
+		// Saisie du chauffeur
+		// Saisie du nom
 		String nomChauf = inputOutput("Saisir le nom du Chauffeur\n");
-		//Saisie du prenom
+		// Saisie du prenom
 		String prenomChauf = inputOutput("Saisir le prénom du Chauffeur\n");
-		//Saisie de l'age
+		// Saisie de l'age
 		int ageChauffeur = Integer.parseInt(inputOutput("Saisir l'âge du chauffeur\n"));
-		
+
 		Chauffeur chauffeur = new Chauffeur(nomChauf, prenomChauf, ageChauffeur);
-		
+
 		// Saisie du camion
-		//Saisie du numéro d'immatriculation
+		// Saisie du numéro d'immatriculation
 		String numeroIm = inputOutput("Saisir le numéro d'immatriculation du camion\n");
-		//Saisie du numéro du camion dans la société
+		// Saisie du numéro du camion dans la société
 		int numeroDuCamion = Integer.parseInt(inputOutput("Saisir le numéro du camion dans la société\n"));
-		//Saisie du chauffeur
-		Camion camion = new Camion(numeroIm, numeroDuCamion, chauffeur);		
-		
+		// Saisie du chauffeur
+		Camion camion = new Camion(numeroIm, numeroDuCamion, chauffeur);
+
 		// Saisie de la Tournee
-		
-		//Saisie du nom de la tournée
+
+		// Saisie du nom de la tournée
 		String nomTournee = inputOutput("Saisir le nom de la Tournée\n");
-		
-		//Saisie du nombre de code postaux
+
+		// Saisie du nombre de code postaux
 		int nbCPs = Integer.parseInt(inputOutput("Saisir le nombre de codes postaux qu'il y a dans la tournée\n "));
-		//Saisie de la liste de code Postaux
+		// Saisie de la liste de code Postaux
 		Tournee tournee = new Tournee(nomTournee, chauffeur, camion, nbCPs);
 		String[] cPs = new String[nbCPs];
 		tournee.saisirCPs(nbCPs);
-		
+
 		return tournee;
-		
+
 	}
+
 	public static void main(String[] args) {
-		menu();
+		menuPp();
 
 	}
 }

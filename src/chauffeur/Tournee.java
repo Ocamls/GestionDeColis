@@ -54,8 +54,6 @@ public class Tournee {
 	public String caracteristiquesTournee() {
 		return chauffeur.getNom() + " " + chauffeur.getPrenom() + " conduit : " + camion.getNumeroIm() + " pour la tournée : "+ getNom();
 		}
-	
-	
 
 	@Override
 	public String toString() {
