@@ -3,12 +3,7 @@ package colis;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
-
-import chauffeur.Camion;
-import chauffeur.Chauffeur;
-import chauffeur.FeuilleDeRoute;
-import chauffeur.Tournee;
+import chauffeur.*;
 
 public class Main {
 	public static Tournee[] listeTournees = new Tournee[17];
@@ -66,8 +61,7 @@ public class Main {
 		}
 		case 2 :{
 			//Il y a un bug entre les fonctions il faut résoudre le problème
-//			FeuilleDeRoute feuille1 = new FeuilleDeRoute(tournee);
-			// TODO Faire l'affichage de la feuille de route                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+			
 		}
 		case 3 :{
 			
@@ -141,7 +135,7 @@ public class Main {
 
 	
 	
-	private static Colis saisieInfosColis() {
+	public static Colis saisieInfosColis() {
 
 		// Adresse du destinataire (Adresse)
 
@@ -175,7 +169,7 @@ public class Main {
 		String adrExp = inputOutput("Saisir l'adresse de l'expéditeur\n");
 
 		// Saisie de la Ville (String)
-		String villeExp = inputOutput("Saisir lea ville de l'expéditeur\n");
+		String villeExp = inputOutput("Saisir la ville de l'expéditeur\n");
 
 		// Saisie du code postal (CodePostal)
 		String cPExp = inputOutput("Saisir le code postal de l'expéditeur");
@@ -213,7 +207,7 @@ public class Main {
 		return colis;
 	}
 
-	private static Tournee saisieInfosTournee() {
+	public static Tournee saisieInfosTournee() {
 		// Saisie du chauffeur
 		// Saisie du nom
 		String nomChauf = inputOutput("Saisir le nom du Chauffeur\n");

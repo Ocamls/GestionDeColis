@@ -14,6 +14,7 @@ public class Adresse {
 	public String getcP() {
 		return cP;
 	}
+	
 	@Override
 	public String toString() {
 		return indications + " " + ville + " " + cP;
