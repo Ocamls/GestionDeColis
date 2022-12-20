@@ -7,6 +7,8 @@ import colis.CodeBarre;
 import colis.Colis;
 import colis.Destinataire;
 import colis.Expediteur;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeuilleDeRoute {
 	private Tournee tournee;
@@ -21,10 +23,28 @@ public class FeuilleDeRoute {
 		return tournee;
 	}
 
+	
+
 	public String[] ajouterUnColis(Colis colis) {
-		this.colisDuJour[nbColisDuJour] = colis.caracteristiquesColis();
-		nbColisDuJour++;
-		return colisDuJour;
+		if (tournee.codePostalDedans(colis.getCodePostalDest())) {
+			this.colisDuJour[nbColisDuJour] = colis.caracteristiquesColis();
+			nbColisDuJour++;
+			return colisDuJour;
+		}
+		else {
+			return colisDuJour;
+		}
+	}
+	//Cette fonction permet de supprimer le colis en fonction du numéro donné exemple 1 supprime le premier colis, 0 ne supprime rien
+	public void retirerUnColis(int numeroDuColis) {
+		if (numeroDuColis <=nbColisDuJour && numeroDuColis != 0) {
+			colisDuJour[numeroDuColis] = null;
+			nbColisDuJour --;
+			
+		}
+		else {
+			System.out.println("Erreur dans la saisie du numéro de colis");
+		}
 	}
 
 	@Override
@@ -53,6 +73,7 @@ public class FeuilleDeRoute {
 		Colis colis = new Colis(dest1, env1, code1, 5);
 		f1.ajouterUnColis(colis);
 		System.out.println(f1);
+		
 	}
 
 }

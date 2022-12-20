@@ -20,10 +20,15 @@ public class Colis {
 	public CodeBarre getCodeBarre() {
 		return codeBarre;
 	}
+	public String getCodePostalDest() {
+		return destinataire.getAdresse().getcP();
+	}
 
 	public String caracteristiquesColis() {
 		return codeBarre + " | " + destinataire + " | " + poids + "| \n";
 	}
+	
+	
 
 	@Override
 	public String toString() {

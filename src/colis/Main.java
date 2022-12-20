@@ -7,53 +7,74 @@ import java.util.*;
 
 import chauffeur.Camion;
 import chauffeur.Chauffeur;
+import chauffeur.FeuilleDeRoute;
 import chauffeur.Tournee;
 
 public class Main {
-
+	public static Tournee[] listeTournees = new Tournee[17];
+	public static int nbTournees = 0; 
+	
+	public Main() {
+		
+	}
 	public static void menuPp() {
 		System.out.println("1- ACCÈS TOURNÉE ");
 		System.out.println("2- ACCÈS COLIS ");
 		System.out.println("0- QUITTER LE MENU PRINCIPAL");
 
 		int userInputMenuPp = Integer.parseInt(inputOutput("Que voulez vous faire ?\n"));
-		if (userInputMenuPp == 1) {
-			// TODO faire le menu pour l'accès à la tournée
-		} else if (userInputMenuPp == 2) {
-			// TODO faire le menu pour l'accès aux colis
-		} else if (userInputMenuPp == 0) {
-			// TODO faire ens sorte de quitter le menu principal ainsi que tous les autres
-			// menus
-		} else {
-			// TODO indiquer une erreur de saisie et permettre de revenir en arrière
+		switch (userInputMenuPp) {
+		case 0: {
+			break;
+		}
+
+		case 1: {
+			menuTournee();
+			break;
+		}
+
+		case 2: {
+			menuColis();
+			break;
+		}
+		default: {
+			System.out.println("Erreur dans le choix du menu principal");
+			menuPp();
+			break;
+		}
 		}
 
 	}
 
 	public static void menuTournee() {
-		System.out.println("1- Ajouter une tournée\n");
-		System.out.println("2- Retirer une tournée\n");
-		System.out.println("3- Modifier une tournée\n");
+		System.out.println("Vous êtes dans le menu des TOURNÉES. \nQue voulez vous faire ?\n");
+		System.out.println("1- Ajouter une tournée");
+		System.out.println("2- Afficher La feuille de route");
+		System.out.println("3- Afficher les tournées ");
 		System.out.println("0- Revenir au menu principal");
 
-		int userInputMenu1SousMenu1 = Integer
-				.parseInt(inputOutput("Vous êtes dans le menu des TOURNÉES. \nQue voulez vous faire ?\\n"));
+		int userInputMenu1SousMenu1 = Integer.parseInt(inputOutput(" "));
 
 		switch (userInputMenu1SousMenu1) {
 		case 1: {
 			Tournee tournee = saisieInfosTournee();
+			listeTournees[nbTournees] = tournee;
+			nbTournees ++;
 			System.out.println(tournee);
 			menuPp();
 			break;
 		}
-		case 2: {
-			// TODO Il faut ici mettre la fonction qui permet la suppression de la tournée
+		case 2 :{
+			//Il y a un bug entre les fonctions il faut résoudre le problème
+//			FeuilleDeRoute feuille1 = new FeuilleDeRoute(tournee);
+			// TODO Faire l'affichage de la feuille de route                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 		}
-		case 3: {
-			// TODO Il faut ici mettre la fonction qui permet la modification de la tournée
+		case 3 :{
+			
 		}
 		case 0: {
-			System.out.println("Vous venez de quitter le menu :(\n");
+			System.out.println("Vous venez de quitter le menu des Tournées vous allez revenir au menu principal\n");
+			menuPp();
 			break;
 		}
 		default: {
@@ -77,21 +98,16 @@ public class Main {
 
 		switch (userInputMenu1SousMenu2) {
 		case 0: {
-			System.out.println("Vous venez de quitter le menu :)\n");
+			System.out.println("Vous venez de quitter le menu des Colis vous allez revenir au menu principal\n");
+			menuPp();
 			break;
 		}
 		case 1: {
 			Colis colis = saisieInfosColis();
-			
 			System.out.println(colis);
+			
 			menuColis();
 			break;
-		}
-		case 2: {
-			// TODO Il faut ici mettre la fonction qui permet la supression d'un colis
-		}
-		case 3: {
-			// TODO Il faut ici mettre la fonction qui permet la modification d'un colis
 		}
 		case 4: {
 			// TODO Il faut ici mettre la fonction qui permet l'affichage de la liste de
@@ -111,8 +127,6 @@ public class Main {
 
 	}
 
-	
-
 	public static String inputOutput(String message) {
 		System.out.println(message);
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -125,6 +139,8 @@ public class Main {
 		return returnString;
 	}
 
+	
+	
 	private static Colis saisieInfosColis() {
 
 		// Adresse du destinataire (Adresse)
@@ -225,7 +241,7 @@ public class Main {
 		int nbCPs = Integer.parseInt(inputOutput("Saisir le nombre de codes postaux qu'il y a dans la tournée\n "));
 		// Saisie de la liste de code Postaux
 		Tournee tournee = new Tournee(nomTournee, chauffeur, camion, nbCPs);
-		String[] cPs = new String[nbCPs];
+//		String[] cPs = new String[nbCPs];
 		tournee.saisirCPs(nbCPs);
 
 		return tournee;

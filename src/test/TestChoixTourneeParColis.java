@@ -5,7 +5,6 @@ import colis.*;
 
 public class TestChoixTourneeParColis {
 	private FeuilleDeRoute feuilleDeRoute1; 
-
 	private Colis colis1;
 	private Colis colis2; 
 	private Colis colis3;
@@ -18,6 +17,7 @@ public class TestChoixTourneeParColis {
 		Chauffeur chauffeur = new Chauffeur("Calmels", "Christophe", 56);
 		Camion camion = new Camion("AA-000-AA", 1, chauffeur);
 		Tournee tournee = new Tournee("tournee", chauffeur, camion, 4);
+		tournee.saisirCPs(tournee.getNbCodePostaux());
 		FeuilleDeRoute feuille  = new FeuilleDeRoute(tournee);
 		
 		Adresse adrDest1 = new Adresse("Caussade", "3 rue Louis Durey Pavillon G5", "82300");
