@@ -50,7 +50,8 @@ public class Tournee extends Saisie{
 	}
 	
 	// ##- Les méthodes -## //
-
+	
+	
 	public String[] saisirCPs(int nbCodePostaux) {
 		System.out.println("Vous allez saisir les codes postaux pour la tournée de " + nom + ": \n");
 		for (int i = 0; i < nbCodePostaux; i++) {
@@ -68,6 +69,11 @@ public class Tournee extends Saisie{
 		return caracteristiqueTournee() + " \n" +  Arrays.toString(colisDuJour);
 		
 	}
+	/* Cette fonction ressemble à la fonction trouverCodePostal sauf que 
+	 * la fonction trouverCodePostal permet de chez dans la liste de toutes les tournées initialisé 
+	 * càd que si le code postal ne se trouve dans aucune des tournées il ne peut pas être initialisé 
+	 * Je vais donc voir si il ne faut pas que je supprime la focntion en dessous
+	 */
 	public boolean codePostalDedans(String codePostal) {
 		for (int i = 0; i < getNbCodePostaux(); i++) {
 			if (codePostal.equals(getcPs()[i])) {
@@ -76,7 +82,14 @@ public class Tournee extends Saisie{
 		}
 		return false; 
 	}
-	
+	public void afficherListeDeColis() {
+		for (int i=0; i<nbColisDuJour; i++) {
+			if (colisDuJour[i]!=null) {
+				System.out.println(colisDuJour[i]);
+			}
+		}
+	}
+
 	public String[] ajouterUnColis(Colis colis) {
 		if (codePostalDedans(colis.getCodePostalDest())) {
 			this.colisDuJour[nbColisDuJour] = colis.caracteristiquesColis();
@@ -87,7 +100,6 @@ public class Tournee extends Saisie{
 			return colisDuJour;
 		}
 	}
-	
 	
 	// ##- La méthode de saisie -## // 
 	

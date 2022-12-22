@@ -11,7 +11,7 @@ public class Main extends Saisie {
 	public static Tournee[] listeTournees = new Tournee[17];
 	public static int nbTournees = 0;
 
-	// ##- Constructeur -## // 
+	// ##- Constructeur -## //
 	public Main() {
 	}
 
@@ -49,13 +49,13 @@ public class Main extends Saisie {
 	public static void menuTournee() {
 		System.out.println("Vous êtes dans le menu des TOURNÉES. \nQue voulez vous faire ?\n");
 		System.out.println("1- Ajouter une tournée");
-		System.out.println("2- Afficher La feuille de route");
-		System.out.println("3- Afficher les tournées ");
+		System.out.println("2- Afficher les tournées ");
+		System.out.println("3- Afficher La feuille de route");
 		System.out.println("0- Revenir au menu principal");
 
-		int userInputMenu1SousMenu1 = Integer.parseInt(inputOutput());
+		int userInputMenuTournee = Integer.parseInt(inputOutput());
 
-		switch (userInputMenu1SousMenu1) {
+		switch (userInputMenuTournee) {
 		case 1: {
 			Tournee tournee = saisieInfosTournee();
 			listeTournees[nbTournees] = tournee;
@@ -65,26 +65,6 @@ public class Main extends Saisie {
 			break;
 		}
 		case 2: {
-			/* Les trois lignes de codes permettent de tester la fonction trouverUnCodePostal
-			 * Cette fonction permet parmi la liste de tournées de trouver si le code postal du colis 
-			 * appartient à la liste des codes postaux de toutes les tournéees
-			 * maintenant que je sais que ça fonctionne avec une seule tournée je vais pouvoir essayer avec d'autres tournées
-			 * de plus il faut que je mette en place l'ajout du colis une fois la tournée ajouter / 
-			 * si aucune tournée ne correspond je dois afficher un message d'erreur
-			 * ce message : "Aucune tournée ne permet la prise en charge de ce colis, soit le code Postal n'est pas à destination de ce centre, 
-			 * soit la tournée n'a pas encore été initialisé.
-			 * Tous ça doit permettre de mettre le colis à ajouter dans la bonne fiche de route je devrai pouvoir le faire
-			 * 
-			 * Pour Océane : ne te déourage pas il reste du boulot mais tu viens de réussir un gros travail, il reste la partie CAML
-			 * la partie pour les diagrames de class, ... COURAGE
-			 */
-			System.out.println("Saisir le code postal pour le test de la fonction trouverCodePostal\n");
-			String codePostalTest = inputOutput();
-			System.out.println(trouverCodePostal(codePostalTest));
-			break;
-
-		}
-		case 3: {
 			if (nbTournees == 0) {
 				System.out.println("Vous n'avez aucune tournée pour le moment");
 
@@ -97,6 +77,29 @@ public class Main extends Saisie {
 			break;
 
 		}
+		case 3: {
+
+			/*
+			 * Les trois lignes de codes permettent de tester la fonction
+			 * trouverUnCodePostal Cette fonction permet parmi la liste de tournées de
+			 * trouver si le code postal du colis appartient à la liste des codes postaux de
+			 * toutes les tournéees maintenant que je sais que ça fonctionne avec une seule
+			 * tournée je vais pouvoir essayer avec d'autres tournées de plus il faut que je
+			 * mette en place l'ajout du colis une fois la tournée ajouter si aucune tournée
+			 * ne correspond je dois afficher un message d'erreur ce message : "Aucune
+			 * tournée ne permet la prise en charge de ce colis, soit le code Postal n'est
+			 * pas à destination de ce centre, soit la tournée n'a pas encore été
+			 * initialisé. Tous ça doit permettre de mettre le colis à ajouter dans la bonne
+			 * fiche de route je devrai pouvoir le faire
+			 * 
+			 * Pour Océane : ne te déourage pas il reste du boulot mais tu viens de réussir
+			 * un gros travail, il reste la partie CAML la partie pour les diagrammes de
+			 * class, ... COURAGE
+			 */
+			break;
+
+		}
+
 		case 0: {
 			System.out.println("Vous venez de quitter le menu des Tournées vous allez revenir au menu principal\n");
 			menuPp();
@@ -113,33 +116,32 @@ public class Main extends Saisie {
 
 	public static void menuColis() {
 		System.out.println("1- Ajouter un colis \n");
-		System.out.println("2- Retirer un colis \n");
-		System.out.println("3- Modifier un colis\n");
-		System.out.println("4- Afficher la liste de tous les colis\n");
-		System.out.println("5- Afficher la liste de tous les colis en fonction des tournées");
+		System.out.println("2- Afficher la liste de tous les colis\n");
+		System.out.println("3- Afficher la liste de tous les colis en fonction des tournées");
 		System.out.println("0- revenir au menu principal");
-
-		int userInputMenu1SousMenu2 = Integer
+		int userInputMenuColis = Integer
 				.parseInt(inputOutput("Vous êtes dans le sous menu COLIS. \nQue voulez vous faire ?\n"));
-
-		switch (userInputMenu1SousMenu2) {
+		switch (userInputMenuColis) {
 		case 0: {
 			System.out.println("Vous venez de quitter le menu des Colis vous allez revenir au menu principal\n");
 			menuPp();
 			break;
 		}
+
 		case 1: {
 			Colis colis = saisieInfosColis();
 			System.out.println(colis);
-
+			String nomTournee = trouverCodePostal(colis.getCodePostalDest());
+			nomTournee.ajouterUnColis(colis);
+			
 			menuColis();
 			break;
 		}
-		case 4: {
+		case 3: {
 			// TODO Il faut ici mettre la fonction qui permet l'affichage de la liste de
 			// tous les colis enregistrés
 		}
-		case 5: {
+		case 4: {
 			// TODO Il faut ici mettre la fonction qui permet l'affichage de la liste de
 			// tous les colis enregistrés en fonction des tournées
 		}
@@ -150,10 +152,8 @@ public class Main extends Saisie {
 			break;
 		}
 		}
-
 	}
-
-
+	
 	// ##- Les colis Gestion -## //
 
 	public static Colis saisieInfosColis() {
@@ -168,6 +168,12 @@ public class Main extends Saisie {
 
 		// Saisie du code postal (CodePostal)
 		String cPDest = inputOutput("Saisir le code postal du  destinataire");
+		while (trouverCodePostal(cPDest) == null) {
+			System.out.println("Le code postal n'appartient à aucune tournée veuillez saisir un code postal valide\n");
+			cPDest = inputOutput("Re-Saisir le code postal du  destinataire");
+
+		}
+		System.out.println("Vous avez saisie un code postal valide qui appartient à une des tournées disponibles");
 
 		/* ######################################################################### */
 		Adresse adrCompleteDest = new Adresse(villeDest, adrDest, cPDest);
@@ -269,13 +275,12 @@ public class Main extends Saisie {
 		for (int i = 0; i < nbTournees; i++) {
 			System.out.println(listeTournees[i].getNom() + Arrays.toString(listeTournees[i].getcPs()));
 		}
-
 	}
 
 	public static String trouverCodePostal(String codePostalColis) {
 		for (int i = 0; i < nbTournees; i++) {
 			int longueurDeLaListeDeCodePostaux = listeTournees[i].getNbCPs();
-			for (int y =0; y <longueurDeLaListeDeCodePostaux ;y++) {
+			for (int y = 0; y < longueurDeLaListeDeCodePostaux; y++) {
 				if (codePostalColis.equals(listeTournees[i].getcPs()[y])) {
 					return listeTournees[i].getNom();
 				}
@@ -283,8 +288,9 @@ public class Main extends Saisie {
 		}
 		return null;
 	}
+
 	// ##- La saisie fonction modifié par rapport à la classe mère saisie -## //
-	
+
 	public static String inputOutput() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String returnString = "";
@@ -298,6 +304,5 @@ public class Main extends Saisie {
 
 	public static void main(String[] args) {
 		menuPp();
-
 	}
 }
