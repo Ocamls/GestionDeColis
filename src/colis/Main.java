@@ -3,21 +3,26 @@ package colis;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+
 import chauffeur.*;
 
-public class Main {
+public class Main extends Saisie {
 	public static Tournee[] listeTournees = new Tournee[17];
-	public static int nbTournees = 0; 
-	
+	public static int nbTournees = 0;
+
+	// ##- Constructeur -## // 
 	public Main() {
-		
 	}
+
+	// ##- Les menus -## //
 	public static void menuPp() {
+		System.out.println("Que voulez vous faire ?\n");
 		System.out.println("1- ACCÈS TOURNÉE ");
 		System.out.println("2- ACCÈS COLIS ");
 		System.out.println("0- QUITTER LE MENU PRINCIPAL");
 
-		int userInputMenuPp = Integer.parseInt(inputOutput("Que voulez vous faire ?\n"));
+		int userInputMenuPp = Integer.parseInt(inputOutput());
 		switch (userInputMenuPp) {
 		case 0: {
 			break;
@@ -48,23 +53,49 @@ public class Main {
 		System.out.println("3- Afficher les tournées ");
 		System.out.println("0- Revenir au menu principal");
 
-		int userInputMenu1SousMenu1 = Integer.parseInt(inputOutput(" "));
+		int userInputMenu1SousMenu1 = Integer.parseInt(inputOutput());
 
 		switch (userInputMenu1SousMenu1) {
 		case 1: {
 			Tournee tournee = saisieInfosTournee();
 			listeTournees[nbTournees] = tournee;
-			nbTournees ++;
+			nbTournees++;
 			System.out.println(tournee);
-			menuPp();
+			menuTournee();
 			break;
 		}
-		case 2 :{
-			//Il y a un bug entre les fonctions il faut résoudre le problème
-			
+		case 2: {
+			/* Les trois lignes de codes permettent de tester la fonction trouverUnCodePostal
+			 * Cette fonction permet parmi la liste de tournées de trouver si le code postal du colis 
+			 * appartient à la liste des codes postaux de toutes les tournéees
+			 * maintenant que je sais que ça fonctionne avec une seule tournée je vais pouvoir essayer avec d'autres tournées
+			 * de plus il faut que je mette en place l'ajout du colis une fois la tournée ajouter / 
+			 * si aucune tournée ne correspond je dois afficher un message d'erreur
+			 * ce message : "Aucune tournée ne permet la prise en charge de ce colis, soit le code Postal n'est pas à destination de ce centre, 
+			 * soit la tournée n'a pas encore été initialisé.
+			 * Tous ça doit permettre de mettre le colis à ajouter dans la bonne fiche de route je devrai pouvoir le faire
+			 * 
+			 * Pour Océane : ne te déourage pas il reste du boulot mais tu viens de réussir un gros travail, il reste la partie CAML
+			 * la partie pour les diagrames de class, ... COURAGE
+			 */
+			System.out.println("Saisir le code postal pour le test de la fonction trouverCodePostal\n");
+			String codePostalTest = inputOutput();
+			System.out.println(trouverCodePostal(codePostalTest));
+			break;
+
 		}
-		case 3 :{
-			
+		case 3: {
+			if (nbTournees == 0) {
+				System.out.println("Vous n'avez aucune tournée pour le moment");
+
+			} else {
+				System.out.println("Voici la liste de toutes les tournées\n");
+				afficherLesTournees();
+			}
+
+			menuTournee();
+			break;
+
 		}
 		case 0: {
 			System.out.println("Vous venez de quitter le menu des Tournées vous allez revenir au menu principal\n");
@@ -74,6 +105,7 @@ public class Main {
 		default: {
 			System.out.println("Saisir un chiffre disponible");
 			menuTournee();
+			break;
 		}
 		}
 
@@ -99,7 +131,7 @@ public class Main {
 		case 1: {
 			Colis colis = saisieInfosColis();
 			System.out.println(colis);
-			
+
 			menuColis();
 			break;
 		}
@@ -121,20 +153,9 @@ public class Main {
 
 	}
 
-	public static String inputOutput(String message) {
-		System.out.println(message);
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String returnString = "";
-		try {
-			returnString = br.readLine();
-		} catch (IOException e) {
-			System.out.println("Error reading in value");
-		}
-		return returnString;
-	}
 
-	
-	
+	// ##- Les colis Gestion -## //
+
 	public static Colis saisieInfosColis() {
 
 		// Adresse du destinataire (Adresse)
@@ -207,6 +228,8 @@ public class Main {
 		return colis;
 	}
 
+	// ##- Les Tournées Gestion -## //
+
 	public static Tournee saisieInfosTournee() {
 		// Saisie du chauffeur
 		// Saisie du nom
@@ -240,6 +263,37 @@ public class Main {
 
 		return tournee;
 
+	}
+
+	public static void afficherLesTournees() {
+		for (int i = 0; i < nbTournees; i++) {
+			System.out.println(listeTournees[i].getNom() + Arrays.toString(listeTournees[i].getcPs()));
+		}
+
+	}
+
+	public static String trouverCodePostal(String codePostalColis) {
+		for (int i = 0; i < nbTournees; i++) {
+			int longueurDeLaListeDeCodePostaux = listeTournees[i].getNbCPs();
+			for (int y =0; y <longueurDeLaListeDeCodePostaux ;y++) {
+				if (codePostalColis.equals(listeTournees[i].getcPs()[y])) {
+					return listeTournees[i].getNom();
+				}
+			}
+		}
+		return null;
+	}
+	// ##- La saisie fonction modifié par rapport à la classe mère saisie -## //
+	
+	public static String inputOutput() {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String returnString = "";
+		try {
+			returnString = br.readLine();
+		} catch (IOException e) {
+			System.out.println("Error reading in value");
+		}
+		return returnString;
 	}
 
 	public static void main(String[] args) {

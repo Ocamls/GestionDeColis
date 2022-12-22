@@ -1,13 +1,11 @@
 package chauffeur;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
 import java.util.Arrays;
 
 import colis.*;
 
-public class Tournee {
+public class Tournee extends Saisie{
 	private String nom;
 	private Chauffeur chauffeur;
 	private Camion camion;
@@ -38,13 +36,15 @@ public class Tournee {
 		return nbCodePostaux;
 	}
 	
+	public int getNbCPs() {
+		return nbCPs;
+	}
+	
 	// ##- Les setter -## // 
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public void setNbCPs(int nbCPs) {
-		this.nbCPs = nbCPs;
-	}
+	
 	public void setNbCodePostaux(int nbCodePostaux) {
 		this.nbCodePostaux = nbCodePostaux;
 	}
@@ -90,17 +90,7 @@ public class Tournee {
 	
 	
 	// ##- La méthode de saisie -## // 
-	public static String inputOutput(String message) {
-		System.out.println(message);
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String returnString = "";
-		try {
-			returnString = br.readLine();
-		} catch (IOException e) {
-			System.out.println("Error reading in value");
-		}
-		return returnString;
-	}
+	
 
 	
 	@Override
