@@ -8,14 +8,24 @@ import java.util.Arrays;
 import chauffeur.*;
 
 public class Main extends Saisie {
-	public static Tournee[] listeTournees = new Tournee[17];
-	public static int nbTournees = 0;
+
+	public static Tournee[] listeTournees = new Tournee[17]; // liste contenant les tournées
+	public static int nbTournees = 0; // nombre de tournées enregistrés 
+
+	public static  Colis [] tousLesColis = new Colis[100]; // liste contenant les colis enregistrés 
+	public static int nbTousLesColis; // nombre de colis enregistrés 
 
 	// ##- Constructeur -## //
 	public Main() {
 	}
 
 	// ##- Les menus -## //
+	
+	/*  Les fonctions menus sont des fonctions qui sont liés, elles permettent la navigation entre les différents points du système
+	 * Le premier point est l'accès aux Tournées.
+	 * Le deuxième point est l'accès aux colis.
+	 * Si l'utilisateur saisie 0 il revient en arrière, s'il est déjà dans le menu principal, il se voit quitter le menu.
+	 */
 	public static void menuPp() {
 		System.out.println("Que voulez vous faire ?\n");
 		System.out.println("1- ACCÈS TOURNÉE ");
@@ -72,34 +82,12 @@ public class Main extends Saisie {
 				System.out.println("Voici la liste de toutes les tournées\n");
 				afficherLesTournees();
 			}
-
 			menuTournee();
 			break;
-
 		}
 		case 3: {
-
-			/*
-			 * Les trois lignes de codes permettent de tester la fonction
-			 * trouverUnCodePostal Cette fonction permet parmi la liste de tournées de
-			 * trouver si le code postal du colis appartient à la liste des codes postaux de
-			 * toutes les tournéees maintenant que je sais que ça fonctionne avec une seule
-			 * tournée je vais pouvoir essayer avec d'autres tournées de plus il faut que je
-			 * mette en place l'ajout du colis une fois la tournée ajouter si aucune tournée
-			 * ne correspond je dois afficher un message d'erreur ce message : "Aucune
-			 * tournée ne permet la prise en charge de ce colis, soit le code Postal n'est
-			 * pas à destination de ce centre, soit la tournée n'a pas encore été
-			 * initialisé. Tous ça doit permettre de mettre le colis à ajouter dans la bonne
-			 * fiche de route je devrai pouvoir le faire
-			 * 
-			 * Pour Océane : ne te déourage pas il reste du boulot mais tu viens de réussir
-			 * un gros travail, il reste la partie CAML la partie pour les diagrammes de
-			 * class, ... COURAGE
-			 */
 			break;
-
 		}
-
 		case 0: {
 			System.out.println("Vous venez de quitter le menu des Tournées vous allez revenir au menu principal\n");
 			menuPp();
@@ -111,12 +99,11 @@ public class Main extends Saisie {
 			break;
 		}
 		}
-
 	}
-
+	
 	public static void menuColis() {
-		System.out.println("1- Ajouter un colis \n");
-		System.out.println("2- Afficher la liste de tous les colis\n");
+		System.out.println("1- Ajouter un colis");
+		System.out.println("2- Afficher la liste de tous les colis");
 		System.out.println("3- Afficher la liste de tous les colis en fonction des tournées");
 		System.out.println("0- revenir au menu principal");
 		int userInputMenuColis = Integer
@@ -127,33 +114,39 @@ public class Main extends Saisie {
 			menuPp();
 			break;
 		}
-
 		case 1: {
 			Colis colis = saisieInfosColis();
 			System.out.println(colis);
-			String nomTournee = trouverCodePostal(colis.getCodePostalDest());
-			nomTournee.ajouterUnColis(colis);
-			
+			ajouterUnColis(colis);
+			menuColis();
+			break;
+		}
+		case 2: {
+			//TODO faire une focntion qui permet seulement d'afficher les cases des colis qui ne sont pas vides 
+			affichageDeTousLesColis();
 			menuColis();
 			break;
 		}
 		case 3: {
 			// TODO Il faut ici mettre la fonction qui permet l'affichage de la liste de
-			// tous les colis enregistrés
-		}
-		case 4: {
-			// TODO Il faut ici mettre la fonction qui permet l'affichage de la liste de
 			// tous les colis enregistrés en fonction des tournées
+			String choixTourneeUserInput  = inputOutput("Saisir le nom de la Tournée dont vous voulez les colis :\n");
+			while(tourneeDansLaListe(choixTourneeUserInput)== false) {
+				choixTourneeUserInput = inputOutput("Re-Saisir le nom de la Tournee il faut qu'il soit déjà enregistré");
+			}
+			triColisPourUneTournee(choixTourneeUserInput);
+			
+			menuColis();
+			break;
 		}
-
 		default: {
 			System.out.println("Il faut saisir une valeur disponible");
-			menuPp();
+			menuColis();
 			break;
 		}
 		}
 	}
-	
+
 	// ##- Les colis Gestion -## //
 
 	public static Colis saisieInfosColis() {
@@ -169,11 +162,11 @@ public class Main extends Saisie {
 		// Saisie du code postal (CodePostal)
 		String cPDest = inputOutput("Saisir le code postal du  destinataire");
 		while (trouverCodePostal(cPDest) == null) {
-			System.out.println("Le code postal n'appartient à aucune tournée veuillez saisir un code postal valide\n");
+			System.out.println("Code Postal NON VALIDE\n");
 			cPDest = inputOutput("Re-Saisir le code postal du  destinataire");
 
 		}
-		System.out.println("Vous avez saisie un code postal valide qui appartient à une des tournées disponibles");
+		System.out.println("Code Postal VALIDE\n");
 
 		/* ######################################################################### */
 		Adresse adrCompleteDest = new Adresse(villeDest, adrDest, cPDest);
@@ -224,8 +217,13 @@ public class Main extends Saisie {
 
 		Expediteur exp = new Expediteur(nomSociete, adrCompleteExp, numeroTelephoneSociete);
 		/* ######################################################################### */
-
-		CodeBarre cB = new CodeBarre(123456789);
+		
+		/* Les deux lignes suivante sont destinés à être modifiées. 
+		 * En effet à terme le code devrait prendre en charge le scan des codes barres et
+		 *  permettre l'automatisation de la saisie.
+		 */
+		String codeBarre = inputOutput("Saisir le code Barre"); 
+		CodeBarre cB = new CodeBarre(codeBarre);
 		/* ######################################################################### */
 
 		Colis colis = new Colis(dest, exp, cB, poidsColis);
@@ -234,8 +232,34 @@ public class Main extends Saisie {
 		return colis;
 	}
 
-	// ##- Les Tournées Gestion -## //
+	public static Colis[] ajouterUnColis(Colis colis) {
+		if (trouverCodePostal(colis.getCodePostalDest()) != null) {
+			tousLesColis[nbTousLesColis] = colis;	
+			nbTousLesColis ++;
+		}
+		return tousLesColis;
+	}
+		
+	public static void triColisPourUneTournee(String nomTournee) {
+		for (int iColis=0 ; iColis< nbTousLesColis; iColis++) {
+			if (trouverCodePostal(tousLesColis[iColis].getCodePostalDest()).equals(nomTournee)) {
+				System.out.println(tousLesColis[iColis].caracteristiquesColis());
+			}
+		}
+	}
 
+	public static void affichageDeTousLesColis() {
+		int i=0; 
+		while(i<nbTousLesColis) {
+			if (!(tousLesColis[i].equals(null))) {
+				System.out.println(tousLesColis[i].caracteristiquesColis());
+			}
+			i ++; 
+		}
+	}
+	
+	// ##- Les Tournées Gestion -## //
+	
 	public static Tournee saisieInfosTournee() {
 		// Saisie du chauffeur
 		// Saisie du nom
@@ -289,8 +313,18 @@ public class Main extends Saisie {
 		return null;
 	}
 
+	public static boolean tourneeDansLaListe(String nomDeLaTournee) {
+		boolean etat = false;
+		for(int i=0; i<nbTournees; i++ ) {
+			if (listeTournees[i].getNom().equals(nomDeLaTournee)) {
+				etat = true; 
+				break; 
+			}
+		}
+		return etat; 
+	}
 	// ##- La saisie fonction modifié par rapport à la classe mère saisie -## //
-
+	
 	public static String inputOutput() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String returnString = "";
@@ -301,8 +335,38 @@ public class Main extends Saisie {
 		}
 		return returnString;
 	}
-
+	
 	public static void main(String[] args) {
+		
+		Chauffeur christopheC = new Chauffeur("Calmels", "Christophe", 56);
+		Camion camion1 = new Camion("AA-000-AA", 1, christopheC);
+		Tournee souillac = new Tournee("Souillac", christopheC, camion1, 3);
+		souillac.saisirCPs(souillac.nbCodePostaux);
+		listeTournees[nbTournees] = souillac;
+		nbTournees ++; 
+		
+		Adresse adresse1 = new Adresse("Caussade", "19 rue Chanoine Galabert", "46100");
+		Destinataire dest1 = new Destinataire("Calmels", "Christophe", adresse1, "0620212032");
+		CodeBarre code1 = new CodeBarre("1597532486");
+		Adresse adresseExp1 = new Adresse("Toulouse", "118 route de Narbonne", "31000");
+		Expediteur env1 = new Expediteur("Université Paul Sabatier III", adresseExp1, "0615148459");
+		Colis colis1 = new Colis(dest1, env1, code1, 5);
+//		System.out.println(colis1);
+		ajouterUnColis(colis1);
+//		System.out.println(Arrays.toString(tousLesColis));
+
+		
+		
+		Adresse adresseDest2 = new Adresse("Cahors", "19 place Gabetta", "46200");
+		Destinataire dest2 = new Destinataire("Calmels", "Christophe", adresseDest2, "0620212032");
+		CodeBarre code2 = new CodeBarre("161514121311");
+		Adresse adresseExp2 = new Adresse("Toulouse", "118 route de Narbonne", "31000");
+		Expediteur env2 = new Expediteur("Université Paul Sabatier III", adresseExp2, "0615148459");
+		Colis colis2 = new Colis(dest2, env2, code2, 5);
+		ajouterUnColis(colis2);
+//		System.out.println(colis2);
+//		System.out.println(Arrays.toString(tousLesColis));
 		menuPp();
+
 	}
 }

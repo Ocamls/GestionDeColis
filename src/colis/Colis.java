@@ -20,16 +20,15 @@ public class Colis {
 	public CodeBarre getCodeBarre() {
 		return codeBarre;
 	}
+	
 	public String getCodePostalDest() {
 		return destinataire.getAdresse().getcP();
 	}
 
 	public String caracteristiquesColis() {
-		return codeBarre + " | " + destinataire + " | " + poids + "| \n";
+		return codeBarre + " | " + destinataire + " | " + poids +"| \n";
 	}
 	
-	
-
 	@Override
 	public String toString() {
 		return "descriptif du colis \n######################################\n" + codeBarre + "\n" + destinataire
@@ -42,7 +41,7 @@ public class Colis {
 		Adresse adresse1 = new Adresse("Caussade", "19 rue Chanoine Galabert", "82300");
 		Destinataire dest1 = new Destinataire("Calmels", "Christophe", adresse1, "0620212032");
 
-		CodeBarre code1 = new CodeBarre(745932242);
+		CodeBarre code1 = new CodeBarre("745932242");
 
 		Adresse adresse2 = new Adresse("Toulouse", "118 route de Narbonne", "31000");
 		Expediteur env1 = new Expediteur("Université Paul Sabatier III", adresse2, "0615148459");

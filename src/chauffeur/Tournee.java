@@ -12,7 +12,7 @@ public class Tournee extends Saisie{
 	private static final int NBCODEPOSTAUXMAX = 4;
 	private int nbCPs = 0;
 	private String[] cPs = new String[NBCODEPOSTAUXMAX];
-	private int nbCodePostaux;
+	public int nbCodePostaux;
 	
 	private String[] colisDuJour = new String[20];
 	private int nbColisDuJour;
@@ -53,27 +53,31 @@ public class Tournee extends Saisie{
 	
 	
 	public String[] saisirCPs(int nbCodePostaux) {
+		int nbCPsReste = nbCodePostaux;
 		System.out.println("Vous allez saisir les codes postaux pour la tournée de " + nom + ": \n");
 		for (int i = 0; i < nbCodePostaux; i++) {
-			cPs[nbCPs] = inputOutput("Saisir un code Postal");
+			nbCPsReste --;
+			cPs[nbCPs] = inputOutput("Saisir un code Postal" + "(Il en reste"+ nbCPsReste + ")");
 			nbCPs++;
 		}
 		return cPs;
 	}
 
 	public String caracteristiqueTournee() {
-		return chauffeur.getNom() +" " + chauffeur.getPrenom()+ " "+camion.getNumeroIm();
+		return chauffeur.getNom() +" " + chauffeur.getPrenom()+ " "+camion.getNumeroIm(); 
 	}
 	
 	public String feuilleDeRoute(){
 		return caracteristiqueTournee() + " \n" +  Arrays.toString(colisDuJour);
 		
 	}
+	
 	/* Cette fonction ressemble à la fonction trouverCodePostal sauf que 
 	 * la fonction trouverCodePostal permet de chez dans la liste de toutes les tournées initialisé 
 	 * càd que si le code postal ne se trouve dans aucune des tournées il ne peut pas être initialisé 
 	 * Je vais donc voir si il ne faut pas que je supprime la focntion en dessous
 	 */
+	
 	public boolean codePostalDedans(String codePostal) {
 		for (int i = 0; i < getNbCodePostaux(); i++) {
 			if (codePostal.equals(getcPs()[i])) {
@@ -82,6 +86,7 @@ public class Tournee extends Saisie{
 		}
 		return false; 
 	}
+	
 	public void afficherListeDeColis() {
 		for (int i=0; i<nbColisDuJour; i++) {
 			if (colisDuJour[i]!=null) {
@@ -90,20 +95,7 @@ public class Tournee extends Saisie{
 		}
 	}
 
-	public String[] ajouterUnColis(Colis colis) {
-		if (codePostalDedans(colis.getCodePostalDest())) {
-			this.colisDuJour[nbColisDuJour] = colis.caracteristiquesColis();
-			nbColisDuJour++;
-			return colisDuJour;
-		}
-		else {
-			return colisDuJour;
-		}
-	}
-	
 	// ##- La méthode de saisie -## // 
-	
-
 	
 	@Override
 	public String toString() { 
